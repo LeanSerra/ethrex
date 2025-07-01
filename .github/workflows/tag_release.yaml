@@ -212,6 +212,9 @@ jobs:
   package-contracts:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
       - name: Archive contracts
         run: |
           cd crates/l2/contracts/src/
