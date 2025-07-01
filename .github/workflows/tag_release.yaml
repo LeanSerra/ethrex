@@ -221,20 +221,20 @@ jobs:
           tar -czvf l1-contracts.tar.gz ./l1
           tar -czvf l2-contracts.tar.gz ./l2
           cd ../../../../
-          mv crates/l2/contracts/src/l1-contracts.tar.gz l1-contracts.tar.gz
-          mv crates/l2/contracts/src/l2-contracts.tar.gz l2-contracts.tar.gz
+          mv crates/l2/contracts/src/l1-contracts.tar.gz ethrex-l1-contracts.tar.gz
+          mv crates/l2/contracts/src/l2-contracts.tar.gz ethrex-l2-contracts.tar.gz
 
       - name: Upload L1 artifact
         uses: actions/upload-artifact@v4
         with:
-          name: l1-contracts.tar.gz
-          path: l1-contracts.tar.gz
+          name: ethrex-l1-contracts.tar.gz
+          path: ethrex-l1-contracts.tar.gz
 
       - name: Upload L2 artifact
         uses: actions/upload-artifact@v4
         with:
-          name: l2-contracts.tar.gz
-          path: l2-contracts.tar.gz
+          name: ethrex-l2-contracts.tar.gz
+          path: ethrex-l2-contracts.tar.gz
 
   # Creates a draft release on GitHub with the binaries
   finalize-release:
