@@ -86,8 +86,10 @@ jobs:
       - name: Build ethrex L2
         run: |
           cd crates/l2
-          make build-prover
-          cd ../../
+          [[ "${{ matrix.os }}" != "macos" ]] && export RUSTFLAGS='-C target-cpu=native'
+          cargo build --release --features "l2" \
+            --manifest-path ./prover/Cargo.toml \
+            --bin ethrex_prover
           mv target/release/ethrex_prover ethrex_prover_${{ matrix.backend }}-${{ matrix.os }}_${{ matrix.arch }}
 
       - name: Upload artifact
@@ -133,7 +135,10 @@ jobs:
       - name: Build ethrex L2
         run: |
           cd crates/l2
-          make build-prover PROVER=${{ matrix.mode }} G=true
+          RUSTFLAGS='-C target-cpu=native' \
+          cargo build --release --features "sp1,gpu,l2" \
+            --manifest-path ./prover/Cargo.toml \
+            --bin ethrex_prover
           cd ../../
           mv target/release/ethrex_prover ethrex_prover_${{ matrix.backend }}-${{ matrix.os }}_${{ matrix.arch }}
 
@@ -182,7 +187,10 @@ jobs:
       - name: Build ethrex L2
         run: |
           cd crates/l2
-          make build-prover PROVER=risc0
+          RUSTFLAGS='-C target-cpu=native' \
+          cargo build --release --features "risc0,gpu,l2" \
+            --manifest-path ./prover/Cargo.toml \
+            --bin ethrex_prover
           cd ../../
           mv target/release/ethrex_prover ethrex_prover_risc0-${{ matrix.os }}_${{ matrix.arch }}
 
