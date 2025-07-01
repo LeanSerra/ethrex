@@ -90,6 +90,7 @@ jobs:
           cargo build --release --features "l2" \
             --manifest-path ./prover/Cargo.toml \
             --bin ethrex_prover
+          cd ../../
           mv target/release/ethrex_prover ethrex_prover_exec-${{ matrix.os }}_${{ matrix.arch }}
 
       - name: Upload artifact
