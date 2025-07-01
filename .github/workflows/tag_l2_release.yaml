@@ -112,9 +112,9 @@ jobs:
           - platform: ubuntu-latest
             os: linux
             arch: x86-64
-          # - platform: ubuntu-24.04-arm
-          #   os: linux
-          #   arch: arm64
+          - platform: ubuntu-22.04-arm
+            os: linux
+            arch: arm64
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout code
@@ -144,9 +144,9 @@ jobs:
         run: |
           cd crates/l2
           RUSTFLAGS='-C target-cpu=native' \
-            cargo build --release --features "sp1,gpu,l2" \
-              --manifest-path ./prover/Cargo.toml \
-              --bin ethrex_prover
+          cargo build --release --features "sp1,gpu,l2" \
+            --manifest-path ./prover/Cargo.toml \
+            --bin ethrex_prover
           cd ../../
           mv target/release/ethrex_prover ethrex_prover_sp1-${{ matrix.os }}_${{ matrix.arch }}
 
