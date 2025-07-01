@@ -109,9 +109,9 @@ jobs:
           - platform: ubuntu-latest
             os: linux
             arch: x86-64
-          # - platform: ubuntu-24.04-arm
-          #   os: linux
-          #   arch: arm64
+          - platform: ubuntu-24.04-arm
+            os: linux
+            arch: arm64
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout code
@@ -140,7 +140,7 @@ jobs:
       - name: Build prover
         run: |
           cd crates/l2
-          RUSTFLAGS='-C target-cpu=native' \
+          RUST_BACKTRACE=full \
           cargo build --release --features "sp1,gpu,l2" \
             --manifest-path ./prover/Cargo.toml \
             --bin ethrex_prover
