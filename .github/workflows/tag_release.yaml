@@ -1,0 +1,65 @@
+name: Ethrex Release
+
+on:
+  push:
+    tags:
+      - "v[0-9]+\.[0-9]+\.[0-9]+(-rc\.[0-9]+)?"
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  echo-something:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo hello
+      - run: |
+          echo "Hello, world!"
+
+  # Creates a draft release on GitHub with the binaries
+  finalize-release:
+    needs:
+      - echo-something
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./bin
+          pattern: "ethrex*"
+
+      - name: Format name
+        run: echo "RELEASE_NAME=$(echo ${{ github.ref_name }} | cut -d_ -f2)" >> $GITHUB_ENV
+
+      - name: Get previous tag
+        run: |
+          name=$(git --no-pager tag --sort=creatordate --merged ${{ github.ref_name }} | tail -2 | head -1)
+          echo "PREVIOUS_TAG: $name"
+          echo "PREVIOUS_TAG=$name" >> $GITHUB_ENV
+
+      - name: Update CHANGELOG
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fromTag: ${{ github.ref_name }}
+          toTag: ${{ env.PREVIOUS_TAG }}
+          writeToFile: false
+
+      - name: Finalize Release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: ./bin/**/*
+          draft: false
+          prerelease: false
+          tag_name: ${{ github.ref_name }}
+          name: "ETHREX: ${{ env.RELEASE_NAME }}"
+          body: ${{ steps.changelog.outputs.changes }}
