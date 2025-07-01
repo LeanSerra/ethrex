@@ -104,14 +104,14 @@ jobs:
       matrix:
         platform:
           - ubuntu-latest
-          - ubuntu-24.04-arm
+          # - ubuntu-24.04-arm
         include:
           - platform: ubuntu-latest
             os: linux
             arch: x86-64
-          - platform: ubuntu-24.04-arm
-            os: linux
-            arch: arm64
+          # - platform: ubuntu-24.04-arm
+          #   os: linux
+          #   arch: arm64
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout code
