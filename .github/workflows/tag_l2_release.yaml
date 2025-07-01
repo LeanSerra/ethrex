@@ -107,11 +107,14 @@ jobs:
       matrix:
         platform:
           - ubuntu-latest
-        arch:
-          - x86-64
-          - arm64
-        os:
-          - linux
+          # - ubuntu-arm
+        include:
+          - platform: ubuntu-latest
+            os: linux
+            arch: x86-64
+          # - platform: ubuntu-24.04-arm
+          #   os: linux
+          #   arch: arm64
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout code
@@ -121,17 +124,6 @@ jobs:
         uses: dtolnay/rust-toolchain@master
         with:
           toolchain: ${{ vars.RUST_VERSION }}
-
-      - name: Add arm target
-        if: ${{ matrix.arch == 'arm64' }}
-        run: |
-          rustup target add aarch64-unknown-linux-gnu
-
-      - name: Install arm cross-compilation toolchain
-        if: ${{ matrix.arch == 'arm64' }}
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gcc-aarch64-linux-gnu
 
       - name: Install SP1
         env:
@@ -151,17 +143,11 @@ jobs:
       - name: Build prover
         run: |
           cd crates/l2
-          if [[ "${{ matrix.arch }}" == "arm64" ]]; then
-            RUSTFLAGS='-C target-cpu=native' \
+          RUSTFLAGS='-C target-cpu=native' \
             cargo build --release --features "sp1,gpu,l2" \
               --target aarch64-unknown-linux-gnu \
               --manifest-path ./prover/Cargo.toml \
               --bin ethrex_prover
-          else
-            cargo build --release --features "sp1,gpu,l2" \
-              --manifest-path ./prover/Cargo.toml \
-              --bin ethrex_prover
-          fi
           cd ../../
           mv target/release/ethrex_prover ethrex_prover_sp1-${{ matrix.os }}_${{ matrix.arch }}
 
