@@ -24,7 +24,7 @@ jobs:
           - platform: ubuntu-24.04-arm
             os: linux
             arch: arm64
-          - platform: macos-latest
+          - platform: macos-14
             os: macos
             arch: arm64
     runs-on: ${{ matrix.platform }}
