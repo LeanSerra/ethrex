@@ -4,6 +4,8 @@ on:
   push:
     tags:
       - "l2_v*"
+    pull_request:
+      branches: ["**"]
 
 permissions:
   contents: write
