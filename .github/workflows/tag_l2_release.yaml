@@ -90,7 +90,7 @@ jobs:
           cargo build --release --features "l2" \
             --manifest-path ./prover/Cargo.toml \
             --bin ethrex_prover
-          mv target/release/ethrex_prover ethrex_prover_${{ matrix.backend }}-${{ matrix.os }}_${{ matrix.arch }}
+          mv target/release/ethrex_prover ethrex_prover_exec-${{ matrix.os }}_${{ matrix.arch }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -140,7 +140,7 @@ jobs:
             --manifest-path ./prover/Cargo.toml \
             --bin ethrex_prover
           cd ../../
-          mv target/release/ethrex_prover ethrex_prover_${{ matrix.backend }}-${{ matrix.os }}_${{ matrix.arch }}
+          mv target/release/ethrex_prover ethrex_prover_sp1-${{ matrix.os }}_${{ matrix.arch }}
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
