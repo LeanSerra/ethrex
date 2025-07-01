@@ -112,7 +112,7 @@ jobs:
           - platform: ubuntu-latest
             os: linux
             arch: x86-64
-          - platform: ubuntu-22.04-arm
+          - platform: ubuntu-24.04-arm
             os: linux
             arch: arm64
     runs-on: ${{ matrix.platform }}
@@ -135,6 +135,11 @@ jobs:
 
       - name: Add Rust Cache
         uses: Swatinem/rust-cache@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: amd64
 
       - name: Pull sp1 docker image
         run: |
