@@ -236,7 +236,7 @@ jobs:
   # Creates a draft release on GitHub with the binaries
   finalize-release:
     needs:
-      - build-l2
+      - build-ethrex
       - build-prover-exec
       - build-prover-sp1
     # - build-prover-risc0 # Uncomment when fixed RISC0
