@@ -2,8 +2,8 @@ name: L2 Release
 
 on:
   push:
-    tags:
-      - "l2_v*"
+    # tags:
+    #   - "l2_v*"
     pull_request:
       branches: ["**"]
 
