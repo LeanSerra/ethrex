@@ -207,7 +207,6 @@ jobs:
       - build-prover-exec
       - build-prover-sp1
     # - build-prover-risc0 # Uncomment when fixed RISC0
-    # - build-prover-pico # Uncomment when fixed Pico
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
