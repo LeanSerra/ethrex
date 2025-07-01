@@ -189,7 +189,6 @@ build-prover:
 		GPU=",gpu"; \
 	fi; \
 
-	RUSTFLAGS='-C target-cpu=native' \
 	cargo build --release --features "$$PROVER$$GPU,l2" \
 	--manifest-path ./prover/Cargo.toml  \
 	--bin ethrex_prover
