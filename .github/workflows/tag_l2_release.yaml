@@ -107,13 +107,11 @@ jobs:
       matrix:
         platform:
           - ubuntu-latest
-        include:
-          - platform: ubuntu-latest
-            os: linux
-            arch: x86-64
-          - platform: ubuntu-latest
-            os: linux
-            arch: arm64
+        arch:
+          - x86-64
+          - arm64
+        os:
+          - linux
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout code
