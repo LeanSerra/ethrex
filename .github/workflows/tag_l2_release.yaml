@@ -18,7 +18,7 @@ jobs:
         platform:
           - ubuntu-latest
           - ubuntu-24.04-arm
-          - macos-14
+          - macos-latest
         include:
           - platform: ubuntu-latest
             os: linux
@@ -26,7 +26,7 @@ jobs:
           - platform: ubuntu-24.04-arm
             os: linux
             arch: arm64
-          - platform: macos-14
+          - platform: macos-latest
             os: macos
             arch: arm64
     runs-on: ${{ matrix.platform }}
@@ -59,7 +59,7 @@ jobs:
         platform:
           - ubuntu-latest
           - ubuntu-24.04-arm
-          - macos-14
+          - macos-latest
         backend:
           - sp1
           - exec
@@ -70,7 +70,7 @@ jobs:
           - platform: ubuntu-24.04-arm
             os: linux
             arch: arm64
-          - platform: macos-14
+          - platform: macos-latest
             os: macos
             arch: arm64
           - backend: sp1
@@ -115,12 +115,12 @@ jobs:
       matrix:
         platform:
           - ubuntu-latest
-          - macos-14
+          - macos-latest
         include:
           - platform: ubuntu-latest
             os: linux
             arch: x86-64
-          - platform: macos-14
+          - platform: macos-latest
             os: macos
             arch: arm64
     runs-on: ${{ matrix.platform }}
