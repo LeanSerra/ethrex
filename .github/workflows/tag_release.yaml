@@ -16,10 +16,6 @@ jobs:
   build-ethrex:
     strategy:
       matrix:
-        platform:
-          - ubuntu-latest
-          - ubuntu-24.04-arm
-          - macos-latest
         include:
           - platform: ubuntu-latest
             os: linux
