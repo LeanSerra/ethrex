@@ -53,7 +53,7 @@ jobs:
         if: ${{ matrix.os == 'linux-musl' }}
         run: |
           sudo apt update && sudo apt install -y musl-tools
-          rustup toolchain add ${{ matrix.arch }}-unknown-linux-musl
+          rustup target add ${{ matrix.arch }}-unknown-linux-musl
 
       # TODO when https://github.com/lambdaclass/ethrex/pull/3381 is merged
       # Rename to Build ethrex
