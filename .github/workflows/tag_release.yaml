@@ -57,6 +57,7 @@ jobs:
       - name: Build ethrex L2
         run: |
           if [[ "${{ matrix.os }}" == "linux-musl" ]]; then
+            ln -s /usr/include/x86_64-linux-gnu/openssl/opensslconf.h /usr/include/openssl/opensslconf.h
             OPENSSL_DIR=/usr/include/openssl/ cargo build --release --features l2 --target ${{ matrix.arch }}-unknown-linux-musl --bin ethrex
           else
             cargo build --release --features l2 --bin ethrex
