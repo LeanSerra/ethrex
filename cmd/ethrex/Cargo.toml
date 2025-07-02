@@ -106,3 +106,8 @@ harness = false
 [build-dependencies]
 vergen-git2 = { version = "1.0.7", features = ["rustc"] }
 
+[target.x86_64-unknonw-linux-musl.dependencies]
+openssl = { version = "0.10.0", features = ["vendored"] }
+
+[target.aarch64-unknonw-linux-musl.dependencies]
+openssl = { version = "0.10.0", features = ["vendored"] }
