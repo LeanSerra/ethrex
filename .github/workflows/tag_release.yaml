@@ -1,6 +1,8 @@
 name: Ethrex Release
 
 on:
+  pull_request:
+    branches: ["**"]
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
@@ -14,20 +16,22 @@ jobs:
   build-ethrex:
     strategy:
       matrix:
-        platform:
-          - ubuntu-latest
-          - ubuntu-24.04-arm
-          - macos-latest
         include:
           - platform: ubuntu-latest
             os: linux
-            arch: x86-64
+            arch: x86_64
+          - platform: ubuntu-latest
+            os: linux-musl
+            arch: x86_64
           - platform: ubuntu-24.04-arm
             os: linux
             arch: arm64
+          - platform: ubuntu-24.04-arm
+            os: linux-musl
+            arch: aarch64
           - platform: macos-latest
             os: macos
-            arch: arm64
+            arch: aarch64
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Checkout code
@@ -41,12 +45,29 @@ jobs:
       - name: Add Rust Cache
         uses: Swatinem/rust-cache@v2
 
+      - name: Set up musl and openssl
+        if: ${{ matrix.os == 'linux-musl' }}
+        run: |
+          sudo apt update && sudo apt install -y musl-tools pkg-config libssl-dev
+          rustup target add ${{ matrix.arch }}-unknown-linux-musl
+
       # TODO when https://github.com/lambdaclass/ethrex/pull/3381 is merged
       # Rename to Build ethrex
+      # replace --features l2 with --all-features
       - name: Build ethrex L2
-        # replace --features l2 with --all-features
         run: |
-          cargo build --release --features l2 --bin ethrex
+          if [[ "${{ matrix.os }}" == "linux-musl" ]]; then
+            if [[ "${{ matrix.arch }}" == "x86_64" ]]; then
+              sudo ln -s /usr/include/x86_64-linux-gnu/openssl/opensslconf.h /usr/include/openssl/opensslconf.h
+              sudo ln -s /usr/include/x86_64-linux-gnu/openssl/configuration.h /usr/include/openssl/configuration.h
+            else
+              sudo ln -s /usr/include/aarch64-linux-gnu/openssl/opensslconf.h /usr/include/openssl/opensslconf.h
+              sudo ln -s /usr/include/aarch64-linux-gnu/openssl/configuration.h /usr/include/openssl/configuration.h
+            fi
+            OPENSSL_DIR=/usr/ cargo build --release --features l2 --target ${{ matrix.arch }}-unknown-linux-musl --bin ethrex
+          else
+            cargo build --release --features l2 --bin ethrex
+          fi
           mv target/release/ethrex ethrex-${{ matrix.os }}_${{ matrix.arch }}
 
       - name: Upload artifact
