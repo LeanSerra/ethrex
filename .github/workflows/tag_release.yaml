@@ -58,7 +58,9 @@ jobs:
         run: |
           if [[ "${{ matrix.os }}" == "linux-musl" ]]; then
             sudo ln -s /usr/include/x86_64-linux-gnu/openssl/opensslconf.h /usr/include/openssl/opensslconf.h
+            sudo ln -s /usr/include/aarch64-linux-gnu/openssl/opensslconf.h /usr/include/openssl/opensslconf.h
             sudo ln -s /usr/include/x86_64-linux-gnu/openssl/configuration.h /usr/include/openssl/configuration.h
+            sudo ln -s /usr/include/aarch64-linux-gnu/openssl/configuration.h /usr/include/openssl/configuration.h
             OPENSSL_DIR=/usr/ cargo build --release --features l2 --target ${{ matrix.arch }}-unknown-linux-musl --bin ethrex
           else
             cargo build --release --features l2 --bin ethrex
