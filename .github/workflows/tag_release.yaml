@@ -45,10 +45,10 @@ jobs:
       - name: Add Rust Cache
         uses: Swatinem/rust-cache@v2
 
-      - name: Set up musl
+      - name: Set up musl and openssl
         if: ${{ matrix.os == 'linux-musl' }}
         run: |
-          sudo apt update && sudo apt install -y musl-tools
+          sudo apt update && sudo apt install -y musl-tools pkg-config libssl-dev
           rustup target add ${{ matrix.arch }}-unknown-linux-musl
 
       # TODO when https://github.com/lambdaclass/ethrex/pull/3381 is merged
