@@ -26,6 +26,9 @@ jobs:
             arch: aarch64
     runs-on: ${{ matrix.platform }}
     steps:
+      - uses: kenchan0130/actions-system-info@master
+        id: system-info
+
       - name: Rustup toolchain install
         uses: dtolnay/rust-toolchain@master
         with:
